@@ -25,4 +25,3 @@ npm publish
 ```
 
 That's it!
- "# angular-schematics-example" 
