@@ -21,11 +21,6 @@
             "type": "string",
             "description": "Specifies the project to run the schematic in",
             "default": "defaultProject"
-        },
-        "keepComments": {
-            "type": "string",
-            "description": "Specifies wether to keep comments or not in the generated files.",
-            "default": "false"
         }
     },
     "required": [

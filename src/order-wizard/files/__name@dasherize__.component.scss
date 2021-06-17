@@ -1,0 +1,41 @@
+form {
+  padding-top: 1rem;
+}
+
+// Material overrides
+.mat-horizontal-stepper-header-container {
+  margin-bottom: 1rem;
+}
+
+.mat-step-header .mat-step-icon {
+  background-color: #2A9FBC;
+  color: #fff;
+  font-weight: bold;
+}
+
+.mat-form-field {
+  display: block;
+  margin-bottom: 1rem;
+  width: 60%;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 60%;
+
+  .mat-form-field {
+    max-width: 45%;
+  }
+}
+
+.mat-form-field.mat-focused {
+  .mat-form-field-ripple {
+    background-color: #2A9FBC;
+  }
+
+  .mat-form-field-label {
+    color: #2A9FBC;
+  }
+}

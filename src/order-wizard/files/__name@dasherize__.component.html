@@ -1,7 +1,94 @@
-<h1>Hello! This module is injected by the <b><%= classify(name) %></b> schematics!</h1>
-
-<% if (keepComments === 'true') { %>
-// This is a normal comment that WILL be kept on the generated file
-<% } else { %>
-<%# This is a EJS comment that WILL NOT be kept on the generated file %>
-<% } %>
+<form [formGroup]="order" *ngIf="!showSuccess">
+  <mat-horizontal-stepper formArrayName="steps" linear>
+    <mat-step formGroupName="0" [stepControl]="order.get('steps.0')" label="Customer Details">
+      <mat-card>
+        <mat-form-field>
+          <input matInput placeholder="First name" formControlName="firstName" required />
+          <mat-error *ngIf="order.get('steps.0').invalid">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Last name" formControlName="lastName" required />
+          <mat-error *ngIf="order.get('steps.0').invalid">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Email" type="email" formControlName="email" required />
+          <mat-error *ngIf="order.get('steps.0').invalid">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Telephone" type="tel" formControlName="telephone" />
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Date of birth" [matDatepicker]="dob" formControlName="dateOfBirth" (focus)="dob.open()" required>
+          <mat-datepicker #dob></mat-datepicker>
+          <mat-error *ngIf="order.get('steps.0').invalid">Required</mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </mat-card>
+    </mat-step>
+    <mat-step formGroupName="1" [stepControl]="order.get('steps.1')" label="Delivery Details">
+      <mat-card>
+        <mat-form-field>
+          <input matInput placeholder="Address line 1" formControlName="addressLine1" required />
+          <mat-error *ngIf="order.get('steps.1').invalid">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Address line 2" formControlName="addressLine2" />
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="City" formControlName="city" />
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="State" formControlName="state" required />
+          <mat-error *ngIf="order.get('steps.1').invalid">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Zip" formControlName="zip" required />
+          <mat-error *ngIf="order.get('steps.1').invalid">Required</mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </mat-card>
+    </mat-step>
+    <mat-step formGroupName="2" [stepControl]="order.get('steps.2')" label="Payment Details">
+      <mat-card>
+        <mat-form-field>
+          <input matInput placeholder="Card number" formControlName="cardNumber" required />
+          <mat-error *ngIf="order.get('steps.2').invalid">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Security code" formControlName="securityCode" required />
+          <mat-error *ngIf="order.get('steps.2').invalid">Required</mat-error>
+        </mat-form-field>
+        <div class="flex-row">
+          <mat-form-field>
+            <mat-label>Expiry Month</mat-label>
+            <mat-select placeholder="Month" formControlName="expiryMonth" required>
+              <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="order.get('steps.2').invalid">Required</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+              <mat-label>Expiry Year</mat-label>
+              <mat-select placeholder="Year" formControlName="expiryYear" required>
+                <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="order.get('steps.2').invalid">Required</mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="submit()">Submit Order</button>
+        </div>
+      </mat-card>
+    </mat-step>
+  </mat-horizontal-stepper>
+</form>
+<div *ngIf="showSuccess">
+  <mat-card>
+    <p>Thanks for your order!</p>
+  </mat-card>
+</div>
