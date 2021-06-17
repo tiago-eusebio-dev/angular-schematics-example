@@ -1,0 +1,7 @@
+<h1>Hello! This module is injected by the <b><%= classify(name) %></b> schematics!</h1>
+
+<% if (keepComments === 'true') { %>
+// This is a normal comment that WILL be kept on the generated file
+<% } else { %>
+<%# This is a EJS comment that WILL NOT be kept on the generated file %>
+<% } %>

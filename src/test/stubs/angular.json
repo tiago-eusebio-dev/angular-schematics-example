@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "test-project": {
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app"
+    }
+  },
+  "defaultProject": "test-project"
+}

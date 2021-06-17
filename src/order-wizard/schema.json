@@ -1,0 +1,34 @@
+{
+    "$id": "orderWizardSchematic",
+    "title": "Material Stepper Order Wizzards",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "The name of the component."
+        },
+        "spec": {
+            "type": "string",
+            "description": "Specifies if a spec file is generated.",
+            "default": "true" // due to an Angular CLI limitation, all the arguments must be passed as a string
+        },
+        "path": {
+            "type": "string",
+            "description": "Specifies the path on the destiny project to create the Order Wizard under",
+            "default": ""
+        },
+        "project": {
+            "type": "string",
+            "description": "Specifies the project to run the schematic in",
+            "default": "defaultProject"
+        },
+        "keepComments": {
+            "type": "string",
+            "description": "Specifies wether to keep comments or not in the generated files.",
+            "default": "false"
+        }
+    },
+    "required": [
+        "name"
+    ]
+}
