@@ -1,13 +1,14 @@
-import { Tree } from '@angular-devkit/schematics';
+import { Tree, SchematicContext } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 
 import * as angularJsonStub from './stubs/angular.json';
 import * as appModuleStub from './stubs/app.module.json';
 import * as packageJsonStub from './stubs/package.json';
+import * as packageMaterialJsonStub from './stubs/package-material.json';
+import { installMaterial } from '../order-wizard/index';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-
 const schematicName = 'order-wizard';
 
 // Make sure that each test runs with a fresh instance of the Tree
@@ -75,7 +76,7 @@ describe(schematicName, () => {
     });
   });
 
-  fdescribe('when inserting content', () => {
+  describe('when inserting content', () => {
     it('updates template files correctly', async () => {
       const runner = new SchematicTestRunner('schematics', collectionPath);
       const tree = await runner
@@ -108,6 +109,53 @@ describe(schematicName, () => {
       const module = tree.read('./src/app/app.module.ts');
 
       expect(module).toContain(', TestModule');
+    });
+  });
+
+  fdescribe('when installing dependencies', () => {
+    let contextStub: SchematicContext;
+    beforeEach(() => {
+      contextStub = {
+        debug: false,
+        engine: jasmine.createSpyObj('engine', [
+          'createCollection',
+          'createContext',
+          'createSchematic',
+          'createSourceFromUrl',
+          'transformOptions',
+          'executePostTasks',
+        ]),
+        logger: jasmine.createSpyObj('logger', ['info']),
+        schematic: jasmine.createSpyObj('schematic', ['call']),
+        strategy: 0,
+        interactive: false,
+        addTask: jasmine.createSpy(),
+      };
+    });
+
+    it('schedules an npm install task uif Material is not installed', () => {
+      const rule = installMaterial();
+      rule(testTree, contextStub);
+
+      expect(contextStub.addTask).toHaveBeenCalled();
+      expect(contextStub.logger.info).toHaveBeenCalledWith(
+        'Installing Angular Material...'
+      );
+    });
+
+    it('does not schedule a task if Material is installed', () => {
+      // Replace the tree's package.json with one that already contains Angular Material
+      testTree.overwrite(
+        './package.json',
+        JSON.stringify(packageMaterialJsonStub)
+      );
+      const rule = installMaterial();
+      rule(testTree, contextStub);
+
+      expect(contextStub.addTask).not.toHaveBeenCalled();
+      expect(contextStub.logger.info).toHaveBeenCalledWith(
+        'Angular Material already installed'
+      );
     });
   });
 });

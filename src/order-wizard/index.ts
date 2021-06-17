@@ -237,8 +237,11 @@ function findImportsArray(
   return pos;
 }
 
-/* Adds dependencies to package.json, validating if they doesn't exist already. */
-function installMaterial(): Rule {
+/*
+ * Adds dependencies to package.json, validating if they doesn't exist already.
+ * It is exported so we can test the Scheduled Task.
+ */
+export function installMaterial(): Rule {
   return (targetTree: Tree, _context: SchematicContext): Tree => {
     const packageJsonPath = '/package.json';
     const materialDepName = '@angular/material';
