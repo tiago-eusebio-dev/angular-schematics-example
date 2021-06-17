@@ -112,7 +112,7 @@ describe(schematicName, () => {
     });
   });
 
-  fdescribe('when installing dependencies', () => {
+  describe('when installing dependencies', () => {
     let contextStub: SchematicContext;
     beforeEach(() => {
       contextStub = {
