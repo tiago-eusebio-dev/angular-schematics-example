@@ -46,7 +46,7 @@ Inside the Angular app folder, simply do:
 npm link order-wizard-schematic
 ng generate order-wizard-schematic:order-wizard --name=checkout
 ```
-Note that `order-wizard:order-wizard` follows the rule `package_name:schematics_name` and that `--name` is the required argument to run the schematic, that on this case will create on the app a component called `checkout`.
+Note that `order-wizard-schematic:order-wizard` follows the rule `package_name:schematics_name` and that `--name` is the required argument to run the schematic, that on this case will create on the app a component called `checkout`.
 
 ### Publishing
 
