@@ -43,8 +43,8 @@ npm link
 In order to use the package on an Angular app, you must link it with the package and then generate the schematic on the app.
 Inside the Angular app folder, simply do:
 ```bash
-npm link order-wizard
-ng generate order-wizard:order-wizard --name=checkout
+npm link order-wizard-schematic
+ng generate order-wizard-schematic:order-wizard --name=checkout
 ```
 Note that `order-wizard:order-wizard` follows the rule `package_name:schematics_name` and that `--name` is the required argument to run the schematic, that on this case will create on the app a component called `checkout`.
 

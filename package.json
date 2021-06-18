@@ -1,7 +1,7 @@
 {
-  "name": "order-wizard",
-  "version": "1.0.0",
-  "description": "A blank schematics",
+  "name": "order-wizard-schematic",
+  "version": "0.0.1",
+  "description": "A three-step order wizard using Angular Material",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine src/**/*_spec.js",
