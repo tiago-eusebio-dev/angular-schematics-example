@@ -11,13 +11,15 @@ import { <%= classify(name) %>Service } from './<%= dasherize(name) %>.service';
 })
 export class <%= classify(name) %>Component implements OnInit {
   public order: FormGroup;
-  public showSuccess: Boolean;
+  public showSuccess: Boolean = false;
   public months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly service: <%= classify(name) %>Service,
-  ) { }
+  ) {
+    this.order = this.fb.group({});
+  }
 
   public get years(): number[] {
     let current = new Date().getFullYear();
