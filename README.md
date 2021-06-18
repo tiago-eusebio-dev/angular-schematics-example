@@ -48,6 +48,21 @@ ng generate order-wizard-schematic:order-wizard --name=checkout
 ```
 Note that `order-wizard-schematic:order-wizard` follows the rule `package_name:schematics_name` and that `--name` is the required argument to run the schematic, that on this case will create on the app a component called `checkout`.
 
+### Add route for component
+
+The routing for the generated component must be added manually as it is not covered in this schematic.
+
+On the target app, edit `src/app/app-routing.module.ts` and add:
+```typescript
+import { CheckoutComponent } from './checkout/checkout.component';
+
+const routes: Routes = [
+  {
+    path: 'checkout', component: CheckoutComponent
+  }
+]
+```
+
 ### Publishing
 
 To publish, simply do:
