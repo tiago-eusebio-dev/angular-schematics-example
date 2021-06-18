@@ -26,9 +26,15 @@ let materialTaskId: TaskId;
 /* The entrance point. */
 export function orderWizard(_options: any): Rule {
   return (targetTree: Tree, _context: SchematicContext) => {
-    // The path on the target project to create the Order Wizard under (passed as an argument of the schematics)
+    // Get the target project's workspace: its angular.json file
+    const workspace = getWorkspace(_options, targetTree);
+    // Get the target project name from its workspace/angular.json
+    const project = getProject(_options, workspace);
+    // Construct the target's app root
+    const appRoot = `${project.root}/${project.sourceRoot}/${project.prefix}`;
+    // The path on the target project to create the Order Wizard under
     const folderPath = normalize(
-      strings.dasherize(_options.path + '/' + _options.name)
+      strings.dasherize(`${appRoot}/${_options.path}/${_options.name}`)
     );
     _context.logger.info(`Placing the schematics files on ${folderPath}`);
 
@@ -44,9 +50,6 @@ export function orderWizard(_options: any): Rule {
       // Filters which files to add/ignore
       specFilter(_options),
     ]);
-
-    // Gets the target project's workspace by reading its angular.json file
-    const workspace = getWorkspace(_options, targetTree);
 
     const templateRule = mergeWith(newTree, MergeStrategy.Default);
     // Injecting the already copied schematics modules into the target project's root Module
@@ -82,7 +85,7 @@ function specFilter(_options: any): Rule {
   return filter((path) => !path.match(/test\.ts$/));
 }
 
-/* Gets the target project's workspace by reading its angular.json file. */
+/* Gets the target project's workspace: its angular.json file. */
 function getWorkspace(
   _options: any,
   targetTree: Tree
@@ -96,15 +99,20 @@ function getWorkspace(
   return JSON.parse(workspace.toString());
 }
 
+/* Gets the target project name from its workspace/angular.json. */
+function getProject(_options: any, workspace: any) {
+  _options.project =
+    _options.project === 'defaultProject'
+      ? workspace.defaultProject
+      : _options.project;
+
+  return workspace.projects[_options.project];
+}
+
 /* Injects the schematic's modules to the target project's root Module. */
 function updateRootModule(_options: any, workspace: any): Rule {
   return (targetTree: Tree, _context: SchematicContext): Tree => {
-    _options.project =
-      _options.project === 'defaultProject'
-        ? workspace.defaultProject
-        : _options.project;
-
-    const project = workspace.projects[_options.project];
+    const project = getProject(_options, workspace);
     const schematicsModuleFilename = strings.dasherize(_options.name);
     const schematicsModuleName = strings.classify(_options.name);
     const targetPath = strings.dasherize(_options.path);
