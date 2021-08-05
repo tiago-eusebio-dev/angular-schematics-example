@@ -25,9 +25,9 @@ let materialTaskId: TaskId;
 
 /* The entrance point. */
 export function orderWizard(_options: any): Rule {
-  return (targetTree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext) => {
     // Get the target project's workspace: its angular.json file
-    const workspace = getWorkspace(_options, targetTree);
+    const workspace = getWorkspace(_options, tree);
     // Get the target project name from its workspace/angular.json
     const project = getProject(_options, workspace);
     // Construct the target's app root
@@ -68,7 +68,7 @@ export function orderWizard(_options: any): Rule {
       addMaterialRule,
     ]);
 
-    return chainedRule(targetTree, _context);
+    return chainedRule(tree, _context);
   };
 }
 
@@ -88,9 +88,9 @@ function specFilter(_options: any): Rule {
 /* Gets the target project's workspace: its angular.json file. */
 function getWorkspace(
   _options: any,
-  targetTree: Tree
+  tree: Tree
 ): workspaces.WorkspaceDefinition {
-  const workspace = targetTree.read('/angular.json');
+  const workspace = tree.read('/angular.json');
 
   if (!workspace) {
     throw new SchematicsException('angular.json file not found!');
@@ -111,7 +111,7 @@ function getProject(_options: any, workspace: any) {
 
 /* Injects the schematic's modules to the target project's root Module. */
 function updateRootModule(_options: any, workspace: any): Rule {
-  return (targetTree: Tree, _context: SchematicContext): Tree => {
+  return (tree: Tree, _context: SchematicContext): Tree => {
     const project = getProject(_options, workspace);
     const schematicsModuleFilename = strings.dasherize(_options.name);
     const schematicsModuleName = strings.classify(_options.name);
@@ -128,7 +128,7 @@ function updateRootModule(_options: any, workspace: any): Rule {
       `${targetPath ? targetPath + '/' : ''}` +
       `${schematicsModuleFilename}/${schematicsModuleFilename}.module'`;
 
-    const rootModuleFile = getAsSourceFile(targetTree, rootModulePath);
+    const rootModuleFile = getAsSourceFile(tree, rootModulePath);
     const lastImportEndPos = findLastImportEndPos(
       rootModuleFile,
       importFromPath
@@ -138,7 +138,7 @@ function updateRootModule(_options: any, workspace: any): Rule {
       schematicsModuleName
     );
 
-    const updateRecorder = targetTree.beginUpdate(rootModulePath);
+    const updateRecorder = tree.beginUpdate(rootModulePath);
     // Add to imports if not already present
     if (lastImportEndPos != -1) {
       updateRecorder.insertLeft(
@@ -154,15 +154,15 @@ function updateRootModule(_options: any, workspace: any): Rule {
         `, ${schematicsModuleName}Module`
       );
     }
-    targetTree.commitUpdate(updateRecorder);
+    tree.commitUpdate(updateRecorder);
 
-    return targetTree;
+    return tree;
   };
 }
 
-/* Get a file from the targetTree as a Typescript SourceFile that we can work with to find the correct insertion points */
-function getAsSourceFile(targetTree: Tree, path: string): ts.SourceFile {
-  const file = targetTree.read(path);
+/* Get a file from the tree as a Typescript SourceFile that we can work with to find the correct insertion points */
+function getAsSourceFile(tree: Tree, path: string): ts.SourceFile {
+  const file = tree.read(path);
   if (!file) {
     throw new SchematicsException(`${path} not found`);
   }
@@ -250,10 +250,10 @@ function findImportsArray(
  * It is exported so we can test the Scheduled Task.
  */
 export function installMaterial(): Rule {
-  return (targetTree: Tree, _context: SchematicContext): Tree => {
+  return (tree: Tree, _context: SchematicContext): Tree => {
     const packageJsonPath = '/package.json';
     const materialDepName = '@angular/material';
-    const packageJson = getAsSourceFile(targetTree, packageJsonPath);
+    const packageJson = getAsSourceFile(tree, packageJsonPath);
     let materialInstalled = false;
 
     packageJson.forEachChild((node: ts.Node) => {
@@ -281,13 +281,13 @@ export function installMaterial(): Rule {
       _context.logger.info('Installing Angular Material...');
     }
 
-    return targetTree;
+    return tree;
   };
 }
 
 /* Configures Angular Material after its installation. */
 function addMaterial(): Rule {
-  return (targetTree: Tree, _context: SchematicContext): Tree => {
+  return (tree: Tree, _context: SchematicContext): Tree => {
     const options = {
       theme: 'indigo-pink',
       gestures: true,
@@ -302,6 +302,6 @@ function addMaterial(): Rule {
       _context.logger.info('Configuring Angular Material...');
     }
 
-    return targetTree;
+    return tree;
   };
 }
