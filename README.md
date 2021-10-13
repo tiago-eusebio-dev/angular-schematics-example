@@ -4,6 +4,8 @@ This repository is a basic Schematic implementation that serves as a starting po
 
 The package is called `order-wizard` and contains a schematic with the same name: `order-wizard`.
 
+For concepts regarding the schematics, refer to [CONCEPTS.md](https://github.com/tiago-eusebio-pbss/angular-schematics-example/blob/main/CONCEPTS.md "Concepts")
+
 ### Requirements
 
 * **Node.js:** download installer [from the website](https://nodejs.org/en/ "Node.js")
