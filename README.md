@@ -4,6 +4,18 @@ This repository is a basic Schematic implementation that serves as a starting po
 
 The package is called `order-wizard` and contains a schematic with the same name: `order-wizard`.
 
+### Requirements
+
+* **Node.js:** download installer from website
+* **Angular CLI:** 
+```bash
+$ npm install -g @angular/cli
+```
+* **Schematics CLI:**
+```bash
+$ npm install -g @angular-devkit/schematics-cli
+```
+
 ### Testing
 
 To test locally, install `@angular-devkit/schematics-cli` globally and use the `schematics` command line tool. That tool acts the same as the `generate` command of the Angular CLI, but also has a debug mode.
