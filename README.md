@@ -27,7 +27,7 @@ schematics --help
 
 Run the schematic with:
 ```bash
-rm -rf test-thing
+rimraf -Force test-thing
 npm run build
 schematics .:order-wizard --name="testThing"
 ```
