@@ -4,7 +4,8 @@ This repository is a basic Schematic implementation that serves as a starting po
 
 The package is called `order-wizard` and contains a schematic with the same name: `order-wizard`.
 
-For concepts regarding the schematics, refer to [CONCEPTS.md](https://github.com/tiago-eusebio-pbss/angular-schematics-example/blob/main/CONCEPTS.md "Concepts")
+For concepts regarding the schematics, refer to [CONCEPTS.md](https://github.com/tiago-eusebio-pbss/angular-schematics-example/blob/main/CONCEPTS.md "Concepts").
+For a Pluralsight course about schematics, refer to [Building Reusable Angular Components Using Schematics](https://app.pluralsight.com/library/courses/building-reusable-angular-components-schematics/table-of-contents "Building Reusable Angular Components Using Schematics").
 
 ### Requirements
 
