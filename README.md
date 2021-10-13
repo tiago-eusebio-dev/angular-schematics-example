@@ -6,7 +6,7 @@ The package is called `order-wizard` and contains a schematic with the same name
 
 ### Requirements
 
-* **Node.js:** download installer from website
+* **Node.js:** download installer [from the website](https://nodejs.org/en/ "Node.js")
 * **Angular CLI:** 
 ```bash
 $ npm install -g @angular/cli
